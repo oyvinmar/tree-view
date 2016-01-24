@@ -23,6 +23,10 @@ module.exports =
       type: 'boolean'
       default: false
       description: 'Show the tree view on the right side of the editor instead of the left.'
+    scrollToActiveFile:
+      type: 'boolean'
+      default: false
+      description: 'Autoscroll and expand tree view to active file.'
     sortFoldersBeforeFiles:
       type: 'boolean'
       default: true

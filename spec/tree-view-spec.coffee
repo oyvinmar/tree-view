@@ -2254,6 +2254,36 @@ describe "TreeView", ->
 
         expect(lambdaEntries).toEqual(["iota", "kappa"])
 
+  describe "the scrollToActiveFile config option", ->
+    beforeEach ->
+      spyOn(treeView, 'revealActiveFile')
+
+    describe "when disabled", ->
+      it "defaults to disabled", ->
+        expect(atom.config.get("tree-view.scrollToActiveFile")).toBeFalsy()
+
+      it "do not reveal active file on active pane change", ->
+        waitsForPromise ->
+          atom.workspace.open('tree-view.js')
+
+        runs ->
+          expect(treeView.revealActiveFile).not.toHaveBeenCalled()
+
+    describe "when enabled", ->
+      beforeEach ->
+        atom.config.set('tree-view.scrollToActiveFile', true)
+        waitsForPromise ->
+          atom.workspace.open('tree-view.js')
+
+      it "should reveal active file on active pane change", ->
+        runs ->
+          expect(treeView.revealActiveFile).toHaveBeenCalled()
+
+      it "should not call focus on active pane change", ->
+        spyOn(treeView, 'focus')
+        runs ->
+          expect(treeView.focus).not.toHaveBeenCalled()
+
   describe "Git status decorations", ->
     [projectPath, modifiedFile, originalFileContent] = []
 
